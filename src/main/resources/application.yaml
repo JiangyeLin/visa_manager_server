@@ -1,0 +1,17 @@
+spring:
+  # 数据库配置
+  datasource:
+    url: jdbc:mariadb://migao.life:33061/admin3?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: Wv8LdE4Vm8GFz!
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 3
+      max-active: 6
+
+server:
+  port: 8088
+logging:
+  file:
+    name: name:visa.log
