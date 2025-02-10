@@ -41,4 +41,6 @@ public class CustomerEntity extends BaseEntity {
     private String givenName;
 
     private String phoneNumber;
+
+    private String companyId;
 }

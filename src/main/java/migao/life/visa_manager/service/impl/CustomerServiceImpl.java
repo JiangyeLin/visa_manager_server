@@ -15,9 +15,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
         IPage<CustomerEntity> page = customerQueryForm.toPage();
         QueryWrapper<CustomerEntity> queryWrapper = new QueryWrapper<>();
 
+        // TODO: 2025/2/10 优化搜索逻辑 
         if (customerQueryForm.getKeyword() != null) {
             String keyword = customerQueryForm.getKeyword().trim();
-            queryWrapper.like("phone_number", keyword).or().like("passport_number", keyword).or().like("family_name", keyword).or().like("given_name", keyword);
+            queryWrapper.like("phone_number", keyword).or().like("passport_number", keyword).or().like("family_name", keyword).or().like("given_name", keyword).or().like("company_id", customerQueryForm.getCompanyId());
+        } else if (customerQueryForm.getCompanyId() != null) {
+            queryWrapper.like("company_id", customerQueryForm.getCompanyId());
         }
 
         return this.baseMapper.selectPage(page, queryWrapper);

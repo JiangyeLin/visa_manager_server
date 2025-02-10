@@ -17,7 +17,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, CompanyEntity
 
         if (companyQueryForm.getKeyword() != null) {
             String keyword = companyQueryForm.getKeyword().trim();
-            queryWrapper.like("phone_number", keyword).or().like("passport_number", keyword).or().like("family_name", keyword).or().like("given_name", keyword);
+            queryWrapper.like("company_name_cn", keyword).or().like("company_name_en", keyword).or().like("unified_social_credit_code", keyword).or().like("address", keyword);
         }
 
         return this.baseMapper.selectPage(page, queryWrapper);

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import migao.life.visa_manager.common.vo.Result;
 import migao.life.visa_manager.model.entity.CompanyEntity;
 import migao.life.visa_manager.model.form.CompanyQueryForm;
-import migao.life.visa_manager.model.form.CustomerQueryForm;
 import migao.life.visa_manager.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,13 @@ public class CompanyController {
     CompanyService companyService;
 
     @PostMapping("/list")
-    public Result<IPage<CompanyEntity>> getCustomerList(@RequestBody CompanyQueryForm companyQueryForm) {
+    public Result<IPage<CompanyEntity>> getCustomerList( CompanyQueryForm companyQueryForm) {
         return Result.success((companyService.getCompanyList(companyQueryForm)));
+    }
+
+    @PostMapping("/update")
+    public Result<Boolean> saveCompany(@RequestBody CompanyEntity companyEntity) {
+        System.out.println(companyEntity.getId());
+        return Result.success(companyService.saveOrUpdate(companyEntity));
     }
 }

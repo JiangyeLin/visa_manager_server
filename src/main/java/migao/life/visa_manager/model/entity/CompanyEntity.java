@@ -1,5 +1,7 @@
 package migao.life.visa_manager.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import java.util.Date;
 @Data
 @TableName("company")
 public class CompanyEntity extends BaseEntity {
-    private Long id;
+
     private String companyNameCn;
     private String companyNameEn;
     private String address;
