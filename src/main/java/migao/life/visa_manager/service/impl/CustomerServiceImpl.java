@@ -3,6 +3,8 @@ package migao.life.visa_manager.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import migao.life.visa_manager.common.constant.CommonStatus;
+import migao.life.visa_manager.common.exception.CommonException;
 import migao.life.visa_manager.mapper.CustomerMapper;
 import migao.life.visa_manager.model.entity.CustomerEntity;
 import migao.life.visa_manager.model.form.CustomerQueryForm;
@@ -11,6 +13,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEntity> implements CustomerService {
+    @Override
+    public int saveCustomer(CustomerEntity customerEntity) {
+
+        QueryWrapper<CustomerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("passport_number", customerEntity.getPassportNumber());
+
+        CustomerEntity existingUser = this.baseMapper.selectOne(queryWrapper);
+        if (existingUser != null) {
+            // 存在相同的 email，进行更新操作
+            throw new CommonException(CommonStatus.CUSTOMER_EXISTS);
+        } else {
+            // 不存在相同的 email，执行插入操作
+            return this.baseMapper.insert(customerEntity);
+        }
+    }
+
     public IPage<CustomerEntity> getCustomerList(CustomerQueryForm customerQueryForm) {
         IPage<CustomerEntity> page = customerQueryForm.toPage();
         QueryWrapper<CustomerEntity> queryWrapper = new QueryWrapper<>();
@@ -23,6 +41,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
             queryWrapper.like("company_id", customerQueryForm.getCompanyId());
         }
 
+        queryWrapper.orderByDesc("id");
         return this.baseMapper.selectPage(page, queryWrapper);
     }
 }

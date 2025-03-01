@@ -43,4 +43,10 @@ public class CustomerEntity extends BaseEntity {
     private String phoneNumber;
 
     private String companyId;
+
+    //国籍
+    private String nationality;
+
+    //护照照片
+    private String photo;
 }

@@ -23,12 +23,13 @@ public class CommonException extends RuntimeException implements Serializable {
      */
     private String msg;
 
-    public CommonException(Integer code, String msg){
+    public CommonException(Integer code, String msg) {
         super(msg);
         this.code = code;
         this.msg = msg;
     }
-    public CommonException(CommonStatus commonStatus){
+
+    public CommonException(CommonStatus commonStatus) {
         super(commonStatus.getMsg());
         this.code = commonStatus.getCode();
         this.msg = commonStatus.getMsg();

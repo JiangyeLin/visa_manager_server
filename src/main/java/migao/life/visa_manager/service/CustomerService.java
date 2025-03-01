@@ -6,5 +6,8 @@ import migao.life.visa_manager.model.entity.CustomerEntity;
 import migao.life.visa_manager.model.form.CustomerQueryForm;
 
 public interface CustomerService extends IService<CustomerEntity> {
-    public IPage<CustomerEntity> getCustomerList(CustomerQueryForm customerQueryForm);
+
+    int saveCustomer(CustomerEntity customerEntity);
+
+    IPage<CustomerEntity> getCustomerList(CustomerQueryForm customerQueryForm);
 }
