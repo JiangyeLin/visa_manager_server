@@ -42,6 +42,7 @@ public class CustomerEntity extends BaseEntity {
 
     private String phoneNumber;
 
+    //所属公司
     private String companyId;
 
     //国籍

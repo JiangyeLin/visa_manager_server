@@ -6,10 +6,7 @@ import migao.life.visa_manager.model.entity.CustomerEntity;
 import migao.life.visa_manager.model.form.CustomerQueryForm;
 import migao.life.visa_manager.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/customer")
@@ -28,5 +25,11 @@ public class CustomerController {
         System.out.println("添加客户");
         System.out.println(customerEntity);
         return Result.success(customerService.saveCustomer(customerEntity) > 0);
+    }
+
+    @DeleteMapping("/delete")
+    public Result<Boolean> delete(@RequestBody CustomerEntity customerEntity) {
+        System.out.println("删除" + customerEntity);
+        return Result.success(customerService.removeById(customerEntity));
     }
 }
