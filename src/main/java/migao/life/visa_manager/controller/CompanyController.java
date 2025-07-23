@@ -20,6 +20,11 @@ public class CompanyController {
         return Result.success((companyService.getCompanyList(companyQueryForm)));
     }
 
+    @GetMapping("/info/{id}")
+    public Result<CompanyEntity> getCompanyInfo(@PathVariable("id") String id) {
+        return Result.success(companyService.getById(id));
+    }
+
     @PostMapping("/update")
     public Result<Boolean> saveCompany(@RequestBody CompanyEntity companyEntity) {
         return Result.success(companyService.saveOrUpdate(companyEntity));

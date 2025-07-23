@@ -1,5 +1,6 @@
 package migao.life.visa_manager.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,27 +22,28 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, CustomerEnt
 
         CustomerEntity existingUser = this.baseMapper.selectOne(queryWrapper);
         if (existingUser != null) {
-            // 存在相同的 email，进行更新操作
+            // 存在相同的 护照号，进行更新操作
             throw new CommonException(CommonStatus.CUSTOMER_EXISTS);
         } else {
-            // 不存在相同的 email，执行插入操作
+            // 不存在相同的 护照号，执行插入操作
             return this.baseMapper.insert(customerEntity);
         }
     }
 
     public IPage<CustomerEntity> getCustomerList(CustomerQueryForm customerQueryForm) {
         IPage<CustomerEntity> page = customerQueryForm.toPage();
-        QueryWrapper<CustomerEntity> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<CustomerEntity> wrapper = new LambdaQueryWrapper<>();
 
-        // TODO: 2025/2/10 优化搜索逻辑
+        // TODO: 2025/2/10 优化搜索逻辑 公司和keyword 混合搜索
         if (customerQueryForm.getKeyword() != null) {
             String keyword = customerQueryForm.getKeyword().trim();
-            queryWrapper.like("phone_number", keyword).or().like("passport_number", keyword).or().like("family_name", keyword).or().like("given_name", keyword).or().like("company_id", customerQueryForm.getCompanyId());
-        } else if (customerQueryForm.getCompanyId() != null) {
-            queryWrapper.like("company_id", customerQueryForm.getCompanyId());
+            wrapper.like(CustomerEntity::getName, keyword).or().like(CustomerEntity::getPhoneNumber, keyword).or().like(CustomerEntity::getPassportNumber, keyword).or().like(CustomerEntity::getFamilyName, keyword).or().like(CustomerEntity::getGivenName, keyword);
+        }
+        if (customerQueryForm.getCompanyId() != null) {
+            wrapper.eq(CustomerEntity::getCompanyId, customerQueryForm.getCompanyId());
         }
 
-        queryWrapper.orderByDesc("id");
-        return this.baseMapper.selectPage(page, queryWrapper);
+        wrapper.orderByDesc(CustomerEntity::getId);
+        return this.baseMapper.selectPage(page, wrapper);
     }
 }

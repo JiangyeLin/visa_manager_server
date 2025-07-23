@@ -11,6 +11,8 @@ import java.util.Date;
 @Data
 @TableName("customer")
 public class CustomerEntity extends BaseEntity {
+
+    //姓名
     private String name;
 
     //护照编号

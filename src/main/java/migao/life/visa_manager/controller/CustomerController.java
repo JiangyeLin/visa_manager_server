@@ -20,16 +20,23 @@ public class CustomerController {
         return Result.success((customerService.getCustomerList(customerQueryForm)));
     }
 
-    @PostMapping("/update")
+    @PostMapping("/save")
     public Result<Boolean> saveCustomer(@RequestBody CustomerEntity customerEntity) {
-        System.out.println("添加客户");
-        System.out.println(customerEntity);
         return Result.success(customerService.saveCustomer(customerEntity) > 0);
+    }
+
+    @PostMapping("/update")
+    public Result<Boolean> updateCustomer(@RequestBody CustomerEntity customerEntity) {
+        return Result.success(customerService.saveOrUpdate(customerEntity));
+    }
+
+    @GetMapping("/{id}")
+    public Result<CustomerEntity> getCompanyInfo(@PathVariable("id") String id) {
+        return Result.success(customerService.getById(id));
     }
 
     @DeleteMapping("/delete")
     public Result<Boolean> delete(@RequestBody CustomerEntity customerEntity) {
-        System.out.println("删除" + customerEntity);
         return Result.success(customerService.removeById(customerEntity));
     }
 }
